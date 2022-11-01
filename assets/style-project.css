@@ -1,0 +1,133 @@
+.card-project{
+    width: auto;
+    height: 100%;
+    background-color: whitesmoke;
+    margin: 10px 200px 200px 200px;
+    border-radius: 20px;
+    font-family:  Poppins;
+    box-shadow: 2px 2px 5px #888888;
+    display: flex;
+}
+
+#table-project tr th{
+    padding: 10px;
+    border: 4px solid black;
+    border-collapse:separate;
+}
+table.project {
+    font-family: Poppins;
+    border: 0px solid #000000;
+    background-color: #FFFFFF;
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 20px;
+  }
+table.project td, table.project th {
+    border: 0px solid #AAAAAA;
+    padding: 7px 10px;
+    border-radius: 20px;
+}
+table.project tbody td {
+    font-size: 13px;
+    border-bottom: 0px solid black;
+    vertical-align: top;
+}
+table.project thead {
+    background: #FFFFFF;
+    border-bottom: 2px solid #000000;
+}
+table.project thead th {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    border-left: 2px solid #000000;
+}
+table.project thead th:first-child {
+    border-left: none;
+    width: 50px;
+}
+table.project thead th:nth-child(2) {
+    width: 320px;
+}
+table.project thead th:nth-child(3) {
+    width: 150px;
+}
+table.project thead th:nth-child(4) {
+    width: 450px;
+}
+table.project tbody td:nth-child(n){
+    border-right: 2px solid black;
+}
+table.project tbody td:nth-child(5){
+    border-right: none;
+}
+
+table.project tbody tr:nth-child(n):hover{
+background-color: whitesmoke;
+}
+table.project tbody tr:nth-child(n){
+    border-bottom: 1px solid black;
+}
+table.project tbody tr:last-child{
+    border-bottom: none;
+}
+table.project tbody tr td a:last-child{
+    color: blue;
+}
+    
+table img{
+   max-width: 100%;
+   max-height: 100%;
+}
+
+.table-form{
+    padding: 20px;
+}
+
+table.table-form tr td{
+    padding: 5px;
+}
+fieldset{
+    width: 100%;
+}
+table.table-form tr td input[type="text"]{
+    background-color: whitesmoke;
+    
+    height: 25px;
+    border-radius: 4px;
+}
+table.table-form tr td input[type="email"]{
+    background-color: whitesmoke;
+    height: 25px;
+    border-radius: 4px;
+}
+table.table-form tr td input[type="submit"]{
+    background-color: white;
+    width: 100px;
+    height: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+table.table-form tr td input[type="submit"]:hover{
+    background-color: wheat;
+}
+
+textarea{
+    resize: none;
+}
+.card-contact{
+    width: auto;
+    height: 500px;
+    background-color: white;
+    margin: 0px 100px;
+    margin-bottom: 100px;
+    border-radius: 20px;
+    padding: 10px;
+    font-family:  Poppins;
+    box-shadow: 2px 2px 5px #888888;
+    display: flex;
+    overflow: auto;
+}
+.achivement{
+    margin-top: 200px;
+}
