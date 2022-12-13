@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=NTR&display=swap');
+
+                
+*{
+    font-family: 'NTR', sans-serif; 
+    margin: 0;
+    
+}
+body{
+    background-color: white;
+    scroll-behavior: smooth;
+}
+/* nav */
+#bs-timpa .navigasi{
+    background-color: white;
+    font-weight: 400;
+    font-weight: bold;
+}
+#bs-timpa .menu{
+    font-size: 18px;
+    padding: 5px 20px;
+    font-weight: bold;
+}
+#bs-timpa .side-body{
+    background-color: #F0F1F3;
+    margin: 0;
+    font-family: 'NTR', sans-serif;
+    font-weight: bold;
+    
+}
+#bs-timpa .side-menu{
+    list-style: none;
+    padding: 5px;
+    font-weight: bold;
+}
+.side-menu li{
+    font-size: 140%;
+    font-weight: bold;
+    margin: 0px 20px;
+    margin-left: 0; 
+    border-bottom: 1px solid black;
+}
+.side-menu li a{
+    text-decoration: none;
+    padding: 5px;
+}
+
+/* judul */
+.judul{
+    font-weight: bold;
+    font-size: 50px;
+    color: #183153;
+    font-weight: bold;
+}
+
+.kotak{
+    width: 200px;
+    height: 60px;
+    background: #ffd43b;
+    border: 2px solid #183153;
+    border-radius: 10px;
+    box-shadow: 0px 5px #183153;
+    font-weight: bold;
+}
+.kotak:hover{
+    background-color: #cca519;
+}
+.kotak:active{
+    box-shadow: none;
+}
+#tombol-tour:active{
+    transform: translateY(5px);
+}
+
+/* section Profil */
+#profil{
+    background-color: #f0f1f3;
+    margin-top: 50px;
+    height: 400px;
+    padding: 10px;
+    font-size: 120%;
+    color:#183153;
+}
+#bs-timpa .card{
+    top: 20px;
+    border: none;
+    border: 1px solid transparent;
+    box-shadow: 0px 5px #c3c6d1;
+    
+}
+#bs-timpa .card:hover{
+    border: 1px solid #c3c6d1;
+}
+#bs-timpa .card .img-fluid.foto{
+    max-width: 100px;
+    max-height: auto;
+    border-radius: 50%;
+    border: 1px solid black;
+    margin: 10px;
+}
+#bs-timpa .card-header h3{
+    font-weight: bold;
+}
+#bs-timpa .card-caption{
+    padding: 10px;
+}
+
+
+
+
+/* about me */
+#aboutme{
+    background-color: #F0F1F3;
+    padding: 50px 15%;
+    font-size: 120%;
+    color: #183153;
+}
+
+.about-left h3{
+    font-size: 200%;
+    font-weight: bold;
+}
+
+.about-right img{
+    max-width: auto;
+    margin: 50px 5%;
+    border-radius: 10px;
+    border: 2px solid #c3c6d1;
+    box-shadow: 0px 5px #c3c6d1;
+}
+.about-right img:hover{
+    border: 2px solid purple;
+    box-shadow: 0px 5px purple;
+}
+/* Hiasan */
+.pemotong{
+    height: 100px;
+    background-color: #183153;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+.pemotong h2{
+    font-weight: 800;
+    font-size: 200%;
+}
+/* Project section */
+#project{
+    background-color: white;
+    padding: 50px;
+}
+#project .card .img-fluid{
+    width: auto;
+    height: 200px;
+    border-radius: 10px;
+
+}
+#project .card .img-wrapper{
+    margin: auto;
+    padding: auto;
+}
+
+/* Slide */
+.carousel-inner{
+    padding: 1em;
+    height: 500px;
+    
+}
+#project .card{
+    margin: 0 0.5em;
+    box-shadow: 0px 5px black;
+    border: 1px solid black;
+    border-radius: 10px;
+    height: 400px;
+}
+#project .card-body{
+    font-size: auto;
+    height: 300px;
+}
+.carousel-control-prev:active,
+.carousel-control-next:active{
+    transform: translateY(-25px);
+    box-shadow: none;
+}
+.carousel-control-prev,
+.carousel-control-next{
+    opacity: 1;
+    border: 2px solid #183153;
+    box-shadow: 0px 5px #183153;
+    background-color: #cca519;
+    width: 10vh;
+    height: 6vh;
+    border-radius: 10px;
+    top: 0;
+    transform: translateY(-30px);
+}
+
+  @media (min-width: 768px) {
+    .carousel-item {
+      margin-right: 0;
+      flex: 0 0 33.333333%;
+      display: block;
+    }
+    .carousel-inner {
+      display: flex;
+    }
+  }
+
+
+/* Kontak */
+#kontak{
+    background-color: #c3c6d1;
+}
+.kotak-kontak{
+    height: auto;
+    padding: 50px;
+}
+#kontak #email,
+#kontak #nama,
+#kontak #nama-b{
+    height: 30px;
+    width: 300px;
+    border-radius: 10px;
+    border: 2px solid #183153;
+}
+#kontak #pesan{
+    resize: none;
+    width: 300px;
+    border-radius: 10px;
+    border: 2px solid #183153;
+}
+
+/* footer */
+
+footer{
+    background-color: #183153;
+    color : white;
+    padding: 25px;
+}
+
+.btn-kontak{
+    border: 2px solid black;
+    box-shadow: 0 5px black;
+}
+
+.btn-kontak:active{
+    border: 2px solid black;
+    box-shadow: none;
+    transform: translateY(5px);
+}
