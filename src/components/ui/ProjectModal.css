@@ -1,0 +1,284 @@
+/* Project Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2001;
+  width: min(760px, calc(100vw - 2rem));
+  max-height: calc(100vh - 3rem);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border-glow);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.8), var(--shadow-violet);
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-violet-dim) transparent;
+}
+
+/* Close button */
+.modal__close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(13, 15, 26, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--clr-border-glow);
+  color: var(--clr-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.modal__close:hover {
+  background: var(--clr-violet-glow);
+  border-color: var(--clr-violet);
+  transform: rotate(90deg);
+}
+
+/* Hero 3D Gallery */
+.modal__hero-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  perspective: 1200px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--clr-bg);
+}
+
+.modal__hero-3d {
+  position: relative;
+  width: 50%;
+  height: 65%;
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out;
+}
+
+.modal__hero-card {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px var(--clr-border-glow);
+  background: var(--clr-surface);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+}
+
+/* Layer positioning */
+.modal__hero-card--0 {
+  transform: translateZ(40px) scale(1);
+  z-index: 3;
+}
+
+.modal__hero-card--1 {
+  transform: translateX(-40%) translateZ(-20px) scale(0.9) rotateY(-15deg);
+  z-index: 1;
+  opacity: 0.7;
+}
+
+.modal__hero-card--2 {
+  transform: translateX(40%) translateZ(-40px) scale(0.85) rotateY(15deg);
+  z-index: 2;
+  opacity: 0.7;
+}
+
+/* On hover of container, separate them more */
+.modal__hero-container:hover .modal__hero-card--0 {
+  transform: translateZ(60px) scale(1.05);
+}
+
+.modal__hero-container:hover .modal__hero-card--1 {
+  transform: translateX(-55%) translateZ(0px) scale(0.95) rotateY(-10deg);
+  opacity: 1;
+}
+
+.modal__hero-container:hover .modal__hero-card--2 {
+  transform: translateX(55%) translateZ(-20px) scale(0.9) rotateY(10deg);
+  opacity: 1;
+}
+
+.modal__hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal__hero-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  text-align: center;
+  gap: var(--space-2);
+}
+
+.modal__hero-title {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.modal__hero-subtitle {
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
+  font-weight: 500;
+}
+
+.modal__featured-badge {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  background: rgba(13, 15, 26, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(244, 162, 97, 0.4);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--clr-amber);
+}
+
+/* Content */
+.modal__content {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Meta */
+.modal__meta {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.modal__meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+}
+
+/* Title */
+.modal__title {
+  font-size: clamp(var(--text-2xl), 4vw, var(--text-3xl));
+  font-weight: 700;
+  color: var(--clr-text);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.modal__subtitle {
+  font-size: var(--text-base);
+  font-weight: 600;
+  margin-top: -var(--space-2);
+}
+
+/* Description */
+.modal__desc {
+  font-size: var(--text-base);
+  color: var(--clr-text-muted);
+  line-height: 1.8;
+}
+
+/* Section title */
+.modal__section-title {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--clr-text);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-3);
+}
+
+/* Highlights */
+.modal__highlights {
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+}
+
+.modal__highlight-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.modal__highlight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--clr-text-muted);
+  line-height: 1.6;
+}
+
+.modal__highlight-icon {
+  color: var(--clr-sage);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Tech */
+.modal__tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.modal__tech-badge {
+  font-size: var(--text-xs);
+}
+
+/* Links */
+.modal__links {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--clr-border);
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .modal { width: calc(100vw - 1rem); max-height: calc(100vh - 1rem); }
+  .modal__content { padding: var(--space-5); }
+  .modal__hero-container { aspect-ratio: 16/12; }
+  .modal__hero-3d { width: 70%; height: 50%; }
+  .modal__links   { flex-direction: column; }
+  .modal__links .btn { justify-content: center; }
+}
