@@ -8,7 +8,7 @@ export const FALLBACK_PROFILE = {
   short_name: 'Reza',
   tagline: 'Fullstack Engineer · Software Engineer',
   bio: "Experienced Fullstack Engineer building and maintaining scalable web applications using JavaScript, Python, PHP, Go, Java, Laravel, and Next.js. Proven in cloud (AWS, GCP) and Docker deployments along with CI/CD pipeline implementation. I create responsive UI/UX from Figma designs and apply Agile Development and Product Owner principles for effective, goal-aligned project delivery.",
-  avatar_url: null,
+  avatar_url: 'https://media-cgk1-2.cdn.whatsapp.net/v/t61.24694-24/473401235_1552986355362901_3748418445986158654_n.jpg?ccb=11-4&oh=01_Q5Aa4gGY_VqTRJU_lNLE9ORCio6yq-3fwA3MpEfi1gdqDJvdVw&oe=6A0E9538&_nc_sid=5e03e0&_nc_cat=105',
   email: 'reza.muktasib@gmail.com',
   github_url: 'https://github.com/reza1290',
   linkedin_url: 'https://linkedin.com/in/m-rezamuktasib',
