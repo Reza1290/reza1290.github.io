@@ -4,6 +4,25 @@ import { Terminal, X, Minimize2, Send, Play } from 'lucide-react'
 import { useDomainSound } from '../../hooks/useSound'
 import './TerminalChat.css'
 
+// Stopwords to filter out for basic NLP processing
+const STOPWORDS = new Set([
+  'a', 'about', 'above', 'after', 'again', 'against', 'all', 'am', 'an', 'and', 'any', 'are', 'arent',
+  'as', 'at', 'be', 'because', 'been', 'before', 'being', 'below', 'between', 'both', 'but', 'by',
+  'can', 'cant', 'cannot', 'could', 'couldnt', 'did', 'didnt', 'do', 'does', 'doesnt', 'doing', 'dont',
+  'down', 'during', 'each', 'few', 'for', 'from', 'further', 'had', 'hadnt', 'has', 'hasnt', 'have',
+  'havent', 'having', 'he', 'hed', 'hell', 'hes', 'her', 'here', 'heres', 'hers', 'herself', 'him',
+  'himself', 'his', 'how', 'hows', 'i', 'id', 'ill', 'im', 'ive', 'if', 'in', 'into', 'is', 'isnt',
+  'it', 'its', 'itself', 'lets', 'me', 'more', 'most', 'mustnt', 'my', 'myself', 'no', 'nor', 'not',
+  'of', 'off', 'on', 'once', 'only', 'or', 'other', 'ought', 'our', 'ours', 'ourselves', 'out', 'over',
+  'own', 'same', 'shant', 'she', 'shed', 'shell', 'shes', 'should', 'shouldnt', 'so', 'some', 'such',
+  'than', 'that', 'thats', 'the', 'their', 'theirs', 'them', 'themselves', 'then', 'there', 'theres',
+  'these', 'they', 'theyd', 'theyll', 'theyre', 'theyve', 'this', 'those', 'through', 'to', 'too',
+  'under', 'until', 'up', 'very', 'was', 'wasnt', 'we', 'wed', 'well', 'were', 'weve', 'werent',
+  'what', 'whats', 'when', 'whens', 'where', 'wheres', 'which', 'while', 'who', 'whos', 'whom',
+  'why', 'whys', 'with', 'wont', 'would', 'wouldnt', 'you', 'youd', 'youll', 'youre', 'youve',
+  'your', 'yours', 'yourself', 'yourselves', 'reza', 'rezam'
+])
+
 export default function TerminalChat({ profile, skills = [], projects = [], journey = [] }) {
   const [isOpen, setIsOpen]     = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
@@ -35,21 +54,135 @@ export default function TerminalChat({ profile, skills = [], projects = [], jour
       setHistory([
         {
           type: 'system',
-          text: `Initializing Reza AI Agent CLI v1.0.0...
+          text: `Initializing Reza AI Agent CLI v1.1.0...
 [OK] Loading profile database (GPA: 3.94, Experience: 3+ years)
 [OK] Indexing skills vector database (${skills.length || 22} keys)
-[OK] Connecting network simulation...
+[OK] Connecting NLP semantic analyzer...
 `
         },
         {
           type: 'bot',
-          text: `Welcome! I am Reza's AI agent CLI, fed with his complete professional dossier.
-Type 'help' to see list of terminal commands, or ask me any question!
-(e.g., 'What is his GPA?', 'Tell me about Mufko App', 'What did he do at PT Paragon?')`
+          text: `Welcome! I am Reza's NLP-simulated AI agent CLI, fed with his complete professional dossier.
+Type 'help' to see list of terminal commands, or ask me any question in plain English!
+(e.g., 'What is his GPA?', 'Tell me about Mufko App', 'What is Procspy?')`
         }
       ])
     }
   }, [skills])
+
+  // Dictionary of intents and synonym keywords
+  const getIntents = () => ({
+    gpa: {
+      keywords: ['gpa', 'grade', 'score', 'pens', 'college', 'university', 'study', 'education', 'transcript', 'academic', 'degrees', 'marks', 'politeknik'],
+      response: `[AI INTEL] Category: EDUCATION
+Reza graduated with an Associate Degree in Informatics Engineering from PENS (Politeknik Elektronika Negeri Surabaya). He finished top of his class with a GPA of 3.94 / 4.00.`
+    },
+    mufko: {
+      keywords: ['mufko', 'mutio', 'aws', 'app', 'application', 'daily', 'active', 'users', 'backend', 'devops', 'paragon'],
+      response: `[AI INTEL] Category: PROJECT
+Mufko App (formerly Mutio App) is a production application serving 4,100 daily active users. Reza maintained the Backend & DevOps using Laravel and managed infrastructure optimization on AWS.`
+    },
+    procspy: {
+      keywords: ['procspy', 'proctoring', 'anti-cheating', 'webrtc', 'mediasoup', 'extension', 'graduation', 'project', 'exam'],
+      response: `[AI INTEL] Category: PROJECT
+Procspy is an open-source anti-cheating proctoring system that Reza built as his final graduation project at PENS. It uses Mediasoup + WebRTC to stream secure exam sessions, achieving high efficiency (30 concurrent users using only 20% CPU on dual-core hardware).`
+    },
+    paragon: {
+      keywords: ['paragon', 'wms', 'warehouse', 'sap', 'batch', 'inventory', 'logistics', 'pt paragon'],
+      response: `[AI INTEL] Category: WORK
+At PT Paragon × Sobat Kreasi, Reza worked as a Backend & DevOps engineer, leading a complex Batch Management migration across 24+ active warehouses and designing real-time SAP integration modules.`
+    },
+    cvevaluator: {
+      keywords: ['cv', 'resume', 'evaluator', 'ai', 'langchain', 'openai', 'pinecone', 'semantic', 'vector', 'parsing'],
+      response: `[AI INTEL] Category: PROJECT
+CV Evaluator is an AI-powered resume analysis app built with Next.js, OpenAI, LangChain, and Pinecone vector search for semantic resume scoring and job-role matching.`
+    },
+    exzam: {
+      keywords: ['exzam', 'exam', 'tenant', 'saas', 'laravel', 'school', 'teacher', 'online'],
+      response: `[AI INTEL] Category: PROJECT
+Exzam.id is a multi-tenant online exam SaaS Reza built using React and Laravel, engineered to handle 120+ concurrent exam users with custom proctoring features.`
+    },
+    budgetin: {
+      keywords: ['budgetin', 'finance', 'flutter', 'play store', 'scrum', 'agile', 'personal', 'budget'],
+      response: `[AI INTEL] Category: PROJECT
+BudgetIn is a personal finance Flutter app currently live on the Google Play Store with a 4.8★ user rating. Reza led the development lifecycle as both Product Owner and lead Flutter developer.`
+    },
+    toefl: {
+      keywords: ['toefl', 'mytoefl', 'quiz', 'duolingo', 'leveling', 'game', 'prep'],
+      response: `[AI INTEL] Category: PROJECT
+Pens MyToefl is a gamified preparation app with 50ms API response times running on Dockerized microservices.`
+    },
+    skills: {
+      keywords: ['skills', 'tech', 'language', 'backend', 'frontend', 'framework', 'database', 'tools', 'languages', 'proficient', 'know', 'expert', 'abilities'],
+      response: `[AI INTEL] Category: TECHNICAL ABILITIES
+Reza is proficient in:
+- Languages: JavaScript, TypeScript, PHP, Python, Go, Java, C
+- Frameworks: React, Next.js, Laravel, Node.js, Flutter, Remix
+- Infrastructure: Docker, AWS, GCP, CI/CD, PostgreSQL, MongoDB, WebRTC`
+    },
+    contact: {
+      keywords: ['contact', 'email', 'mail', 'hire', 'phone', 'linkedin', 'reach', 'social', 'github', 'address', 'send', 'message'],
+      response: `[AI INTEL] Category: CONTACT CHANNELS
+You can contact Reza directly at:
+- Email: reza.muktasib@gmail.com
+- LinkedIn: linkedin.com/in/m-rezamuktasib
+- GitHub: github.com/reza1290
+Or use the open transmission form in the CONTACT section at the bottom of the page.`
+    },
+    experience: {
+      keywords: ['experience', 'years', 'career', 'work', 'job', 'history', 'professional', 'long', 'freelance'],
+      response: `[AI INTEL] Category: WORK EXPERIENCE
+Reza has over 3 years of professional software engineering and full-stack development experience, specializing in React, Next.js, Laravel, Go, Docker, and AWS cloud infrastructure. His history includes PT Paragon, Mufko App, and 10+ freelance projects.`
+    },
+    profile: {
+      keywords: ['who', 'reza', 'profile', 'bio', 'about', 'him', 'name', 'muktasib', 'muhamad'],
+      response: `[AI INTEL] Category: PROFILE SUMMARY
+Reza (Muhamad Reza Muktasib) is a Fullstack & Software Engineer. He graduated from PENS, has 3+ years of experience building secure SaaS products (like Exzam.id and Mufko App), and loves writing clean, high-performance code.`
+    }
+  })
+
+  // Lite NLP Intent Classifier
+  const resolveIntent = (queryText) => {
+    // 1. Lowercase and clean input
+    const cleanQuery = queryText.toLowerCase().replace(/[^a-z0-9\s]/g, '')
+    // 2. Tokenize and filter out stopwords
+    const tokens = cleanQuery
+      .split(/\s+/)
+      .map(t => t.trim())
+      .filter(t => t.length > 0 && !STOPWORDS.has(t))
+
+    if (tokens.length === 0) return null
+
+    const intents = getIntents()
+    let bestIntent = null
+    let maxScore = 0
+
+    // 3. Compute score for each intent category
+    Object.keys(intents).forEach(intentKey => {
+      let score = 0
+      const intent = intents[intentKey]
+
+      tokens.forEach(token => {
+        intent.keywords.forEach(kw => {
+          if (token === kw) {
+            score += 2.0 // exact keyword match
+          } else if (token.length > 3 && kw.startsWith(token)) {
+            score += 1.0 // partial starts-with
+          } else if (kw.length > 3 && token.startsWith(kw)) {
+            score += 1.0 // partial starts-with reverse
+          }
+        })
+      })
+
+      if (score > maxScore) {
+        maxScore = score
+        bestIntent = intentKey
+      }
+    })
+
+    // Return the matched intent if score passes threshold
+    return maxScore > 0.5 ? intents[bestIntent] : null
+  }
 
   const handleCommand = (cmdText) => {
     const query = cmdText.trim().toLowerCase()
@@ -67,6 +200,7 @@ Type 'help' to see list of terminal commands, or ask me any question!
     setTimeout(() => {
       let reply = ''
       
+      // Check for exact shell commands first
       if (query === 'help') {
         reply = `Available CLI Commands:
   profile     - Show general profile and bio
@@ -82,14 +216,8 @@ Or simply ask any question in plain English!`
         setIsTyping(false)
         return
       } else if (query === 'profile' || query === 'bio') {
-        reply = `IDENTIFIER: ${profile?.name || 'Muhamad Reza Muktasib'}
-ROLE: ${profile?.tagline || 'Fullstack Engineer'}
-GPA: 3.94 / 4.00 (Top of Class at PENS)
-LOCATION: ${profile?.location || 'Indonesia 🇮🇩'}
-EXPERIENCE: 3+ Years
-
-BIO INTEL:
-"${profile?.bio || 'Building scalable web applications across the space-time of the digital realm.'}"`
+        const intents = getIntents()
+        reply = intents.profile.response
       } else if (query === 'experience' || query === 'history') {
         reply = `RECORDS DISCOVERED:
 ${journey.map(j => `* [${j.year}${j.end_year ? ` - ${j.end_year}` : ' - ONGOING'}] ${j.title}
@@ -110,38 +238,24 @@ ${projects.map(p => `* [${p.title}] - ${p.subtitle}
 ${Object.keys(categories).map(cat => `[${cat.toUpperCase()}]:
   ${categories[cat].join(', ')}`).join('\n\n')}`
       } 
-      // Question answering logic
-      else if (query.includes('gpa') || query.includes('grade') || query.includes('pens') || query.includes('college') || query.includes('gpa')) {
-        reply = `[INTEL] Reza graduated with an Associate Degree in Informatics Engineering from PENS (Politeknik Elektronika Negeri Surabaya). He finished top of his class with a GPA of 3.94 / 4.00.`
-      } else if (query.includes('mufko') || query.includes('mutio') || query.includes('mufko app')) {
-        reply = `[PROJECT] Mufko App (formerly Mutio App) is a production application serving 4,100 daily active users. Reza maintained the Backend & DevOps using Laravel and managed infrastructure optimization on AWS.`
-      } else if (query.includes('procspy') || query.includes('proctoring') || query.includes('anti-cheating')) {
-        reply = `[PROJECT] Procspy is an open-source anti-cheating proctoring system that Reza built as his final graduation project. It uses Mediasoup + WebRTC to stream secure exam sessions, achieving high efficiency (30 concurrent users using only 20% CPU on dual-core hardware).`
-      } else if (query.includes('paragon') || query.includes('wms') || query.includes('warehouse')) {
-        reply = `[WORK] At PT Paragon × Sobat Kreasi, Reza worked as a Backend & DevOps engineer, leading a complex Batch Management migration across 24+ active warehouses and designing real-time SAP integration modules.`
-      } else if (query.includes('cv') || query.includes('resume') || query.includes('evaluator')) {
-        reply = `[PROJECT] CV Evaluator is an AI-powered resume analysis app built with Next.js, OpenAI, LangChain, and Pinecone vector search for semantic resume scoring and job-role matching.`
-      } else if (query.includes('exzam') || query.includes('exam')) {
-        reply = `[PROJECT] Exzam.id is a multi-tenant online exam SaaS Reza built using React and Laravel, engineered to handle 120+ concurrent exam users with custom proctoring features.`
-      } else if (query.includes('budgetin') || query.includes('flutter')) {
-        reply = `[PROJECT] BudgetIn is a personal finance Flutter app currently live on the Google Play Store with a 4.8★ user rating. Reza led the development lifecycle as both Product Owner and lead Flutter developer.`
-      } else if (query.includes('experience') || query.includes('years') || query.includes('how long')) {
-        reply = `[BIO] Reza has over 3 years of professional software engineering and full-stack development experience, specializing in React, Next.js, Laravel, Go, Docker, and AWS cloud infrastructure.`
-      } else if (query.includes('contact') || query.includes('email') || query.includes('hire') || query.includes('reach')) {
-        reply = `[CLI] You can contact Reza directly at reza.muktasib@gmail.com, view his LinkedIn at linkedin.com/in/m-rezamuktasib, or use the open transmission form in the CONTACT section at the bottom of the page.`
-      } else if (query.includes('hello') || query.includes('hi') || query.includes('welcome')) {
-        reply = `[CLI] Connection established. Ask me anything about Reza's GPA, Mufko App, Procspy, or PT Paragon. Try: 'What did he do at PT Paragon?'`
-      } else {
-        reply = `[AI RESPONSE] Query successfully processed, but direct match not found.
-Analyzing keywords: "${cmdText}"
-Suggested action: Check Reza's PROJECTS database (type 'projects') or email him directly at reza.muktasib@gmail.com.
-(Try asking: 'What is his GPA?' or 'Tell me about Procspy')`
+      // Call Lite NLP Intent Classifier for natural language
+      else {
+        const match = resolveIntent(query)
+        if (match) {
+          reply = match.response
+        } else {
+          reply = `[NLP ERROR] Query: "${cmdText}"
+Analyzing semantic vectors... Intent resolved with low confidence (< 10%).
+
+Suggested commands: 'profile', 'skills', 'projects', 'experience'.
+Try asking: 'What did he do at PT Paragon?' or 'Tell me about Procspy'.`
+        }
       }
 
       setHistory(prev => [...prev, { type: 'bot', text: reply }])
       setIsTyping(false)
       playTick()
-    }, 750)
+    }, 600)
   }
 
   const toggleOpen = () => {
