@@ -1,15 +1,99 @@
-import { useRef, useState } from 'react'
-import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import { motion, useInView, AnimatePresence, useMotionValue, useTransform } from 'framer-motion'
 import { X, ExternalLink, Github, Shield, Clock, User, CheckCircle } from 'lucide-react'
+import { useDomainSound } from '../../hooks/useSound'
 import './Missions.css'
 
+const COSMIC_FALLBACKS = [
+  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80'
+]
+
+function getProjectImages(imageUrl, projectId) {
+  let list = []
+  if (imageUrl) {
+    if (Array.isArray(imageUrl)) {
+      list = imageUrl
+    } else {
+      list = imageUrl.split(',').map(s => s.trim()).filter(Boolean)
+    }
+  }
+  const seed = (projectId || '').toString().charCodeAt(0) || 0
+  let index = seed
+  while (list.length < 3) {
+    const nextPhoto = COSMIC_FALLBACKS[index % COSMIC_FALLBACKS.length]
+    if (!list.includes(nextPhoto)) {
+      list.push(nextPhoto)
+    }
+    index++
+  }
+  return list.slice(0, 3)
+}
+
+function Image3DPreview({ src, alt }) {
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+
+  const rotateX = useTransform(y, [-0.5, 0.5], [12, -12])
+  const rotateY = useTransform(x, [-0.5, 0.5], [-12, 12])
+
+  const handleMouseMove = (e) => {
+    const el = e.currentTarget
+    const rect = el.getBoundingClientRect()
+    const px = (e.clientX - rect.left) / rect.width - 0.5
+    const py = (e.clientY - rect.top) / rect.height - 0.5
+    x.set(px)
+    y.set(py)
+  }
+
+  const handleMouseLeave = () => {
+    x.set(0)
+    y.set(0)
+  }
+
+  return (
+    <div
+      className="image-3d-container"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ perspective: 1000 }}
+    >
+      <motion.div
+        className="image-3d-wrapper"
+        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+      >
+        <img
+          src={src}
+          alt={alt}
+          className="image-3d-img"
+          style={{ transform: 'translateZ(30px)' }}
+        />
+        <div
+          className="image-3d-glare"
+          style={{
+            transform: 'translateZ(10px)',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 80%)'
+          }}
+        />
+      </motion.div>
+    </div>
+  )
+}
+
 function MissionModal({ project, onClose }) {
-  // Escape key
-  useState(() => {
+  const [activeImgIndex, setActiveImgIndex] = useState(0)
+  const { playTick } = useDomainSound()
+  const images = getProjectImages(project.image_url, project.id)
+
+  useEffect(() => {
     const fn = (e) => { if (e.key === 'Escape') onClose() }
     window.addEventListener('keydown', fn)
     return () => window.removeEventListener('keydown', fn)
-  }, [])
+  }, [onClose])
 
   return (
     <motion.div
@@ -30,25 +114,19 @@ function MissionModal({ project, onClose }) {
         aria-label={project.title}
       >
         {/* Close */}
-        <button className="mission-modal__close" onClick={onClose} aria-label="Close">
+        <button
+          className="mission-modal__close"
+          onClick={onClose}
+          aria-label="Close"
+          onMouseEnter={playTick}
+        >
           <X size={16} />
         </button>
 
-        {/* Hero */}
-        <div
-          className="mission-modal__hero"
-          style={{ background: project.gradient || 'linear-gradient(135deg, #1a0a3d, #4a1fa8)' }}
-        >
+        {/* Hero with 3D Image Preview */}
+        <div className="mission-modal__hero">
+          <Image3DPreview src={images[activeImgIndex]} alt={project.title} />
           <div className="mission-modal__hero-overlay" />
-          {project.image_url ? (
-            <img
-              src={Array.isArray(project.image_url)
-                ? project.image_url[0]
-                : project.image_url.split(',')[0].trim()}
-              alt={project.title}
-              className="mission-modal__hero-img"
-            />
-          ) : null}
           <div className="mission-modal__hero-content">
             {project.featured && (
               <span className="badge badge-gold mission-modal__featured">⭐ PRIORITY MISSION</span>
@@ -60,6 +138,26 @@ function MissionModal({ project, onClose }) {
 
         {/* Body */}
         <div className="mission-modal__body">
+          {/* Thumbnails grid */}
+          <div className="mission-modal__thumbs-container">
+            <span className="mission-modal__thumbs-label font-mono">INTEL IMAGES:</span>
+            <div className="mission-modal__thumbs">
+              {images.map((img, i) => (
+                <button
+                  key={i}
+                  className={`mission-modal__thumb ${i === activeImgIndex ? 'active' : ''}`}
+                  onClick={() => {
+                    playTick()
+                    setActiveImgIndex(i)
+                  }}
+                  onMouseEnter={playTick}
+                >
+                  <img src={img} alt={`Thumbnail ${i + 1}`} />
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Meta */}
           <div className="mission-modal__meta">
             {project.period && (
@@ -99,7 +197,7 @@ function MissionModal({ project, onClose }) {
           {/* Tech stack */}
           {project.tech_stack?.length > 0 && (
             <div className="mission-modal__tech">
-              <h3 className="mission-modal__section-title">EQUIPMENT USED</h3>
+              <h3 className="mission-modal__section-title font-mono">EQUIPMENT USED</h3>
               <div className="mission-modal__tech-list">
                 {project.tech_stack.map(t => (
                   <span key={t} className="badge badge-energy">{t}</span>
@@ -111,16 +209,34 @@ function MissionModal({ project, onClose }) {
           {/* Actions */}
           <div className="mission-modal__actions">
             {project.demo_url && (
-              <a href={project.demo_url} target="_blank" rel="noreferrer" className="btn btn-energy">
+              <a
+                href={project.demo_url}
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-energy"
+                onMouseEnter={playTick}
+              >
                 <ExternalLink size={14} /> LIVE DEMO
               </a>
             )}
             {project.repo_url && (
-              <a href={project.repo_url} target="_blank" rel="noreferrer" className="btn btn-outline">
+              <a
+                href={project.repo_url}
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-outline"
+                onMouseEnter={playTick}
+              >
                 <Github size={14} /> SOURCE CODE
               </a>
             )}
-            <button className="btn btn-outline" onClick={onClose}>← CLOSE FILE</button>
+            <button
+              className="btn btn-outline"
+              onClick={onClose}
+              onMouseEnter={playTick}
+            >
+              ← CLOSE FILE
+            </button>
           </div>
         </div>
       </motion.div>
@@ -129,6 +245,7 @@ function MissionModal({ project, onClose }) {
 }
 
 function MissionCard({ project, index, inView, onClick }) {
+  const { playTick } = useDomainSound()
   return (
     <motion.div
       className={`mission-card ${project.featured ? 'mission-card--featured' : ''}`}
@@ -136,10 +253,19 @@ function MissionCard({ project, index, inView, onClick }) {
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      onClick={() => onClick(project)}
+      onClick={() => {
+        playTick()
+        onClick(project)
+      }}
+      onMouseEnter={playTick}
       role="button"
       tabIndex={0}
-      onKeyDown={e => e.key === 'Enter' && onClick(project)}
+      onKeyDown={e => {
+        if (e.key === 'Enter') {
+          playTick()
+          onClick(project)
+        }
+      }}
     >
       {/* Top accent */}
       <div className="mission-card__accent" />

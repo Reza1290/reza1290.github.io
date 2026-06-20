@@ -20,11 +20,11 @@ export default function ParticleField({ count = 80, className = '' }) {
     const particles = Array.from({ length: count }, () => ({
       x:       Math.random() * window.innerWidth,
       y:       Math.random() * window.innerHeight,
-      vx:      (Math.random() - 0.5) * 0.3,
-      vy:      -0.1 - Math.random() * 0.3,
-      size:    0.5 + Math.random() * 2,
-      opacity: 0.1 + Math.random() * 0.5,
-      hue:     Math.random() > 0.7 ? 190 : 270, // cyan or violet
+      vx:      (Math.random() - 0.5) * 0.2,
+      vy:      -0.1 - Math.random() * 0.2,
+      size:    1 + Math.random() * 2,
+      opacity: 0.1 + Math.random() * 0.6,
+      hue:     Math.random() > 0.8 ? 38 : 142, // Amber or Phosphor Green
     }))
 
     const draw = () => {
@@ -33,22 +33,23 @@ export default function ParticleField({ count = 80, className = '' }) {
       particles.forEach(p => {
         p.x  += p.vx
         p.y  += p.vy
-        p.opacity -= 0.001
+        p.opacity -= 0.0008
 
         // Respawn
         if (p.y < -10 || p.opacity <= 0) {
           p.x       = Math.random() * canvas.width
           p.y       = canvas.height + 10
-          p.opacity = 0.1 + Math.random() * 0.5
-          p.vx      = (Math.random() - 0.5) * 0.3
-          p.vy      = -0.1 - Math.random() * 0.3
+          p.opacity = 0.1 + Math.random() * 0.6
+          p.vx      = (Math.random() - 0.5) * 0.2
+          p.vy      = -0.1 - Math.random() * 0.2
         }
 
         ctx.beginPath()
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
-        ctx.fillStyle = `hsla(${p.hue}, 80%, 75%, ${p.opacity})`
-        ctx.shadowColor = `hsl(${p.hue}, 80%, 75%)`
-        ctx.shadowBlur  = 4
+        // Draw square pixels for a retro console vibe
+        ctx.rect(p.x - p.size/2, p.y - p.size/2, p.size, p.size)
+        ctx.fillStyle = `hsla(${p.hue}, 76%, 60%, ${p.opacity})`
+        ctx.shadowColor = `hsl(${p.hue}, 76%, 50%)`
+        ctx.shadowBlur  = 2
         ctx.fill()
       })
 

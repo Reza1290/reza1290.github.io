@@ -4,6 +4,7 @@ import { Github, Linkedin, Mail, MapPin, ExternalLink } from 'lucide-react'
 import VoidCanvas from '../canvas/VoidCanvas'
 import ParticleField from '../canvas/ParticleField'
 import GlitchText from '../ui/GlitchText'
+import { useDomainSound } from '../../hooks/useSound'
 import './Hero.css'
 
 const STATS = [
@@ -15,6 +16,7 @@ const STATS = [
 export default function Hero({ profile }) {
   const ref    = useRef(null)
   const inView = useInView(ref, { once: true, amount: 0.2 })
+  const { playTick } = useDomainSound()
 
   return (
     <section className="hero section" id="hero" ref={ref}>
@@ -96,10 +98,20 @@ export default function Hero({ profile }) {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.85 }}
           >
-            <a href="#missions" className="btn btn-energy">
+            <a
+              href="#missions"
+              className="btn btn-energy"
+              onClick={playTick}
+              onMouseEnter={playTick}
+            >
               VIEW MISSIONS
             </a>
-            <a href="#signal" className="btn btn-outline">
+            <a
+              href="#signal"
+              className="btn btn-outline"
+              onClick={playTick}
+              onMouseEnter={playTick}
+            >
               OPEN CHANNEL
             </a>
           </motion.div>
@@ -111,9 +123,43 @@ export default function Hero({ profile }) {
             animate={inView ? { opacity: 1 } : {}}
             transition={{ delay: 1 }}
           >
-            {profile?.github_url   && <a href={profile.github_url}   target="_blank" rel="noreferrer" className="hero__social-link" title="GitHub"><Github   size={18} /></a>}
-            {profile?.linkedin_url && <a href={profile.linkedin_url} target="_blank" rel="noreferrer" className="hero__social-link" title="LinkedIn"><Linkedin size={18} /></a>}
-            {profile?.email        && <a href={`mailto:${profile.email}`}                             className="hero__social-link" title="Email"><Mail     size={18} /></a>}
+            {profile?.github_url   && (
+              <a
+                href={profile.github_url}
+                target="_blank"
+                rel="noreferrer"
+                className="hero__social-link"
+                title="GitHub"
+                onClick={playTick}
+                onMouseEnter={playTick}
+              >
+                <Github size={18} />
+              </a>
+            )}
+            {profile?.linkedin_url && (
+              <a
+                href={profile.linkedin_url}
+                target="_blank"
+                rel="noreferrer"
+                className="hero__social-link"
+                title="LinkedIn"
+                onClick={playTick}
+                onMouseEnter={playTick}
+              >
+                <Linkedin size={18} />
+              </a>
+            )}
+            {profile?.email        && (
+              <a
+                href={`mailto:${profile.email}`}
+                className="hero__social-link"
+                title="Email"
+                onClick={playTick}
+                onMouseEnter={playTick}
+              >
+                <Mail size={18} />
+              </a>
+            )}
             <span className="hero__location"><MapPin size={14} /> {profile?.location || 'Indonesia 🇮🇩'}</span>
           </motion.div>
         </div>

@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import VoidCanvas from '../canvas/VoidCanvas'
+import { useDomainSound } from '../../hooks/useSound'
 import './Intro.css'
 
 export default function Intro({ onEnter }) {
   const [phase, setPhase]       = useState('idle') // idle → charging → explode
   const [progress, setProgress] = useState(0)
   const [dots, setDots]         = useState('')
+  const { playBoot, playCharge, playExpand } = useDomainSound()
+
+  useEffect(() => {
+    // Play startup terminal blips
+    playBoot()
+  }, [playBoot])
 
   useEffect(() => {
     const iv = setInterval(() => {
@@ -17,6 +24,7 @@ export default function Intro({ onEnter }) {
 
   const handleClick = () => {
     if (phase !== 'idle') return
+    playCharge()
     setPhase('charging')
     let p = 0
     const iv = setInterval(() => {
@@ -24,6 +32,7 @@ export default function Intro({ onEnter }) {
       setProgress(p)
       if (p >= 100) {
         clearInterval(iv)
+        playExpand()
         setPhase('explode')
         setTimeout(onEnter, 900)
       }

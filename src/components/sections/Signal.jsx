@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Mail, Github, Linkedin, MapPin, Send } from 'lucide-react'
+import { useDomainSound } from '../../hooks/useSound'
 import './Signal.css'
 
 const CHANNELS = [
@@ -13,6 +14,7 @@ const CHANNELS = [
 export default function Signal({ profile }) {
   const ref    = useRef(null)
   const inView = useInView(ref, { once: true, amount: 0.2 })
+  const { playTick } = useDomainSound()
 
   return (
     <section className="signal section" id="signal" ref={ref}>
@@ -63,7 +65,7 @@ export default function Signal({ profile }) {
                     <div className="signal__channel-body">
                       <span className="signal__channel-label">{label}</span>
                       {target ? (
-                        <a href={target} target="_blank" rel="noreferrer" className="signal__channel-value">
+                        <a href={target} target="_blank" rel="noreferrer" className="signal__channel-value" onMouseEnter={playTick} onClick={playTick}>
                           {display || val}
                         </a>
                       ) : (
@@ -117,6 +119,7 @@ export default function Signal({ profile }) {
                     className="signal__input"
                     placeholder="ENTER IDENTIFIER"
                     autoComplete="name"
+                    onFocus={playTick}
                   />
                 </div>
 
@@ -130,6 +133,7 @@ export default function Signal({ profile }) {
                     required
                     className="signal__input"
                     placeholder="MISSION BRIEFING TOPIC"
+                    onFocus={playTick}
                   />
                 </div>
 
@@ -143,10 +147,11 @@ export default function Signal({ profile }) {
                     rows={6}
                     className="signal__input signal__textarea"
                     placeholder="TRANSMIT YOUR MESSAGE..."
+                    onFocus={playTick}
                   />
                 </div>
 
-                <button type="submit" className="btn btn-energy signal__submit">
+                <button type="submit" className="btn btn-energy signal__submit" onMouseEnter={playTick} onClick={playTick}>
                   <Send size={14} />
                   TRANSMIT SIGNAL
                 </button>

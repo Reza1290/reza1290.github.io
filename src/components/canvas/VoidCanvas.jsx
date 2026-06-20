@@ -47,22 +47,22 @@ export default function VoidCanvas({ intensity = 1, className = '' }) {
 
       // Deep space radial background
       const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(canvas.width, canvas.height) * 0.7)
-      bg.addColorStop(0,    'rgba(10,5,20,0.95)')
-      bg.addColorStop(0.4,  'rgba(5,5,10,0.9)')
-      bg.addColorStop(1,    'rgba(5,5,7,0)')
+      bg.addColorStop(0,    'rgba(3, 4, 3, 0.98)')
+      bg.addColorStop(0.4,  'rgba(1, 2, 1, 0.95)')
+      bg.addColorStop(1,    'rgba(0, 0, 0, 0.9)')
       ctx.fillStyle = bg
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Gravitational lensing glow
+      // Gravitational lensing glow (phosphor terminal glow)
       const lens = ctx.createRadialGradient(cx, cy, 0, cx, cy, 200 * intensity)
-      lens.addColorStop(0,    'rgba(123, 47, 190, 0.4)')
-      lens.addColorStop(0.3,  'rgba(80, 20, 140, 0.15)')
-      lens.addColorStop(0.7,  'rgba(0, 212, 255, 0.05)')
+      lens.addColorStop(0,    'rgba(34, 197, 94, 0.22)')
+      lens.addColorStop(0.3,  'rgba(34, 197, 94, 0.08)')
+      lens.addColorStop(0.7,  'rgba(217, 119, 6, 0.03)')
       lens.addColorStop(1,    'rgba(0,0,0,0)')
       ctx.fillStyle = lens
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Draw rings
+      // Draw rings (phosphor green vector lines)
       rings.forEach((ring, i) => {
         ring.angle += ring.speed
         ctx.save()
@@ -70,17 +70,17 @@ export default function VoidCanvas({ intensity = 1, className = '' }) {
         ctx.rotate(ring.angle + t * (i % 2 === 0 ? 0.1 : -0.07))
         ctx.beginPath()
         ctx.ellipse(0, 0, ring.radius, ring.radius * 0.3, 0, 0, Math.PI * 2)
-        if (ring.dashed) ctx.setLineDash([4, 8])
+        if (ring.dashed) ctx.setLineDash([6, 10])
         else             ctx.setLineDash([])
-        ctx.strokeStyle = `rgba(123, 47, 190, ${ring.opacity * intensity})`
+        ctx.strokeStyle = `rgba(34, 197, 94, ${ring.opacity * 0.8 * intensity})`
         ctx.lineWidth   = ring.width
-        ctx.shadowColor = '#7B2FBE'
-        ctx.shadowBlur  = 8
+        ctx.shadowColor = '#22c55e'
+        ctx.shadowBlur  = 6
         ctx.stroke()
         ctx.restore()
       })
 
-      // Second set — cyan rings
+      // Second set — amber rings (telemetry lines)
       rings.forEach((ring, i) => {
         if (i % 3 !== 0) return
         ctx.save()
@@ -88,17 +88,17 @@ export default function VoidCanvas({ intensity = 1, className = '' }) {
         ctx.rotate(-ring.angle * 0.7 + t * 0.05)
         ctx.beginPath()
         ctx.ellipse(0, 0, ring.radius * 1.4, ring.radius * 0.18, 0.4, 0, Math.PI * 2)
-        ctx.setLineDash([2, 12])
-        ctx.strokeStyle = `rgba(0, 212, 255, ${ring.opacity * 0.4 * intensity})`
+        ctx.setLineDash([2, 16])
+        ctx.strokeStyle = `rgba(217, 119, 6, ${ring.opacity * 0.5 * intensity})`
         ctx.lineWidth   = 0.8
-        ctx.shadowColor = '#00D4FF'
-        ctx.shadowBlur  = 6
+        ctx.shadowColor = '#d97706'
+        ctx.shadowBlur  = 4
         ctx.stroke()
         ctx.restore()
       })
 
-      // Particles
-      particles.forEach(p => {
+      // Particles (glowing terminal bits orbiting the gravity well)
+      particles.forEach((p, idx) => {
         p.angle += p.speed
         const px = cx + Math.cos(p.angle) * p.dist
         const py = cy + Math.sin(p.angle) * p.dist * 0.35
@@ -106,17 +106,20 @@ export default function VoidCanvas({ intensity = 1, className = '' }) {
         // Fade particles near center
         const distFade = Math.max(0, (p.dist - 40) / 400)
         ctx.beginPath()
-        ctx.arc(px, py, p.size, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(200, 180, 255, ${p.opacity * distFade * intensity})`
-        ctx.shadowColor = '#A855F7'
-        ctx.shadowBlur  = 4
+        ctx.rect(px - p.size/2, py - p.size/2, p.size, p.size)
+        const isAmber = idx % 5 === 0
+        ctx.fillStyle = isAmber
+          ? `rgba(217, 119, 6, ${p.opacity * distFade * intensity})`
+          : `rgba(34, 197, 94, ${p.opacity * distFade * intensity})`
+        ctx.shadowColor = isAmber ? '#d97706' : '#22c55e'
+        ctx.shadowBlur  = 3
         ctx.fill()
       })
 
       // Black hole singularity
       const hole = ctx.createRadialGradient(cx, cy, 0, cx, cy, 50)
       hole.addColorStop(0,   'rgba(0,0,0,1)')
-      hole.addColorStop(0.6, 'rgba(5,5,10,0.9)')
+      hole.addColorStop(0.6, 'rgba(2,4,2,0.95)')
       hole.addColorStop(1,   'rgba(0,0,0,0)')
       ctx.fillStyle = hole
       ctx.beginPath()
@@ -130,10 +133,10 @@ export default function VoidCanvas({ intensity = 1, className = '' }) {
       ctx.beginPath()
       ctx.ellipse(0, 0, 55, 18, 0, 0, Math.PI * 2)
       ctx.setLineDash([])
-      ctx.strokeStyle = `rgba(167, 139, 250, ${0.9 * intensity})`
-      ctx.lineWidth = 2
-      ctx.shadowColor = '#A855F7'
-      ctx.shadowBlur  = 20
+      ctx.strokeStyle = `rgba(34, 197, 94, ${0.95 * intensity})`
+      ctx.lineWidth = 1.5
+      ctx.shadowColor = '#22c55e'
+      ctx.shadowBlur  = 15
       ctx.stroke()
       ctx.restore()
 
