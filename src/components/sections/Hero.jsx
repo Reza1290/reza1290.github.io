@@ -5,12 +5,13 @@ import VoidCanvas from '../canvas/VoidCanvas'
 import ParticleField from '../canvas/ParticleField'
 import GlitchText from '../ui/GlitchText'
 import { useDomainSound } from '../../hooks/useSound'
+import meImg from '../../me.png'
 import './Hero.css'
 
 const STATS = [
   { value: '3.94', label: 'GPA', sub: '/ 4.00' },
   { value: '10+',  label: 'PROJECTS', sub: 'BUILT' },
-  { value: '840',  label: 'TOEIC', sub: 'SCORE' },
+  { value: '3+',   label: 'YEARS',    sub: 'EXPERIENCE' },
 ]
 
 export default function Hero({ profile }) {
@@ -178,10 +179,16 @@ export default function Hero({ profile }) {
             <div className="hero__orbit hero__orbit--3" aria-hidden="true" />
 
             {/* Avatar image or sphere */}
-            {profile?.avatar_url ? (
+            {profile?.avatar_url && !profile.avatar_url.includes('whatsapp') ? (
               <img
                 src={profile.avatar_url}
                 alt={profile.name}
+                className="hero__avatar-img"
+              />
+            ) : meImg ? (
+              <img
+                src={meImg}
+                alt={profile?.name || 'Reza'}
                 className="hero__avatar-img"
               />
             ) : (

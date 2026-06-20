@@ -7,6 +7,7 @@ import Records    from '../components/sections/Records'
 import Missions   from '../components/sections/Missions'
 import Accolades  from '../components/sections/Accolades'
 import Signal     from '../components/sections/Signal'
+import TerminalChat from '../components/ui/TerminalChat'
 
 import { useSupabaseSingle, useSupabaseTable } from '../hooks/useSupabase'
 import {
@@ -43,6 +44,16 @@ export default function Portfolio() {
         <Accolades  awards={awards}   certifications={certs}       />
         <Signal     profile={profile}                              />
       </main>
+
+      {/* Terminal Chat Agent */}
+      {entered && (
+        <TerminalChat
+          profile={profile}
+          skills={skills}
+          projects={projects}
+          journey={journey}
+        />
+      )}
     </>
   )
 }

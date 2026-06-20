@@ -36,10 +36,19 @@ export default function Records({ journey }) {
         <div className="records__timeline">
           <div className="records__line" aria-hidden="true" />
 
-          {journey.map((item, i) => {
-            const meta  = TYPE_META[item.type] || TYPE_META.milestone
-            const Icon  = meta.icon
-            const isLeft = i % 2 === 0
+          {(() => {
+            const sortedJourney = [...journey].sort((a, b) => {
+              const yearA = a.year || 0
+              const yearB = b.year || 0
+              if (yearB !== yearA) return yearB - yearA
+              // Newer sort_order (higher sequence) first if in fallback, but let's reverse it to match latest-first
+              return (a.sort_order || 0) - (b.sort_order || 0)
+            })
+
+            return sortedJourney.map((item, i) => {
+              const meta  = TYPE_META[item.type] || TYPE_META.milestone
+              const Icon  = meta.icon
+              const isLeft = i % 2 === 0
 
             return (
               <motion.div
@@ -84,7 +93,7 @@ export default function Records({ journey }) {
                 </div>
               </motion.div>
             )
-          })}
+          })})()}
         </div>
       </div>
     </section>
