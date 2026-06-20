@@ -1,0 +1,140 @@
+.records { background: var(--abyss); }
+
+.records__subtitle {
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  max-width: 500px;
+  margin-bottom: var(--sp-20);
+  line-height: 1.7;
+}
+
+/* Timeline spine */
+.records__timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+}
+
+.records__line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--energy), var(--energy-cyan), transparent);
+  transform: translateX(-50%);
+}
+
+/* Record Card */
+.record-card {
+  position: relative;
+  display: flex;
+  width: calc(50% - 40px);
+}
+
+.record-card--left  { align-self: flex-start; }
+.record-card--right { align-self: flex-end; flex-direction: row-reverse; }
+
+/* Dot on timeline */
+.record-card__dot {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); /* diamond */
+}
+
+.record-card--left  .record-card__dot { right: -54px; }
+.record-card--right .record-card__dot { left:  -54px; }
+
+.record-card__dot--energy { background: var(--energy); border-color: var(--energy-bright); color: white; box-shadow: var(--shadow-energy); }
+.record-card__dot--cyan   { background: #006699; border-color: var(--energy-cyan); color: white; box-shadow: var(--shadow-cyan); }
+.record-card__dot--gold   { background: rgba(245,166,35,0.3); border-color: var(--gold); color: var(--gold); box-shadow: var(--shadow-blood); }
+
+/* Card body */
+.record-card__body {
+  flex: 1;
+  border: 1px solid var(--border);
+  background: var(--abyss-2);
+  padding: var(--sp-6);
+  position: relative;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  transition: border-color var(--t-base);
+}
+
+.record-card__body:hover { border-color: var(--energy); }
+
+.record-card__body--energy { border-left: 2px solid var(--energy); }
+.record-card__body--cyan   { border-left: 2px solid var(--energy-cyan); }
+.record-card__body--gold   { border-left: 2px solid var(--gold); }
+
+.record-card--right .record-card__body--energy { border-left: none; border-right: 2px solid var(--energy); }
+.record-card--right .record-card__body--cyan   { border-left: none; border-right: 2px solid var(--energy-cyan); }
+.record-card--right .record-card__body--gold   { border-left: none; border-right: 2px solid var(--gold); }
+
+.record-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-2);
+}
+
+.record-card__year {
+  font-size: var(--text-xs);
+  font-family: var(--font-body);
+  color: var(--text-faint);
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.record-card__period {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: var(--sp-2);
+}
+
+.record-card__period--energy { color: var(--energy-bright); }
+.record-card__period--cyan   { color: var(--energy-cyan); }
+.record-card__period--gold   { color: var(--gold); }
+
+.record-card__title {
+  font-size: var(--text-xl);
+  color: var(--text);
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  margin-bottom: var(--sp-3);
+}
+
+.record-card__desc {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .records__line { left: 20px; }
+
+  .record-card {
+    width: 100%;
+    padding-left: 60px;
+  }
+
+  .record-card--right { flex-direction: row; align-self: flex-start; }
+
+  .record-card--left  .record-card__dot,
+  .record-card--right .record-card__dot {
+    left: -40px;
+    right: auto;
+  }
+
+  .record-card--right .record-card__body--energy { border-right: none; border-left: 2px solid var(--energy); }
+  .record-card--right .record-card__body--cyan   { border-right: none; border-left: 2px solid var(--energy-cyan); }
+  .record-card--right .record-card__body--gold   { border-right: none; border-left: 2px solid var(--gold); }
+}

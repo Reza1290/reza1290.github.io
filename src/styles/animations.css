@@ -1,138 +1,135 @@
 /* ================================================================
-   ANIMATIONS — Midnight Storybook Theme
+   DOMAIN EXPANSION — Animations
    ================================================================ */
 
+/* --- Glitch --- */
+@keyframes glitch-1 {
+  0%   { clip-path: inset(20% 0 60% 0); transform: translate(-4px, 0); }
+  20%  { clip-path: inset(50% 0 30% 0); transform: translate(4px, 0); }
+  40%  { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 0); }
+  60%  { clip-path: inset(70% 0 10% 0); transform: translate(3px, 0); }
+  80%  { clip-path: inset(40% 0 50% 0); transform: translate(-3px, 0); }
+  100% { clip-path: inset(20% 0 60% 0); transform: translate(-4px, 0); }
+}
+
+@keyframes glitch-2 {
+  0%   { clip-path: inset(60% 0 20% 0); transform: translate(4px, 0); color: var(--energy-cyan); }
+  20%  { clip-path: inset(30% 0 50% 0); transform: translate(-4px, 0); }
+  40%  { clip-path: inset(80% 0 10% 0); transform: translate(2px, 0); }
+  60%  { clip-path: inset(10% 0 70% 0); transform: translate(-3px, 0); color: var(--blood); }
+  80%  { clip-path: inset(50% 0 40% 0); transform: translate(3px, 0); }
+  100% { clip-path: inset(60% 0 20% 0); transform: translate(4px, 0); }
+}
+
+@keyframes glitch-skew {
+  0%, 100% { transform: skewX(0deg); }
+  20%       { transform: skewX(-1deg); }
+  40%       { transform: skewX(1deg); }
+  60%       { transform: skewX(-0.5deg); }
+  80%       { transform: skewX(0.5deg); }
+}
+
+/* --- Pulse --- */
+@keyframes pulse-energy {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.05); }
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(0.9); opacity: 1; }
+  100% { transform: scale(2);   opacity: 0; }
+}
+
 /* --- Fade In --- */
-@keyframes fadeIn {
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-/* --- Fade Up --- */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* --- Fade Down --- */
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* --- Slide In Left --- */
-@keyframes slideLeft {
-  from { opacity: 0; transform: translateX(-40px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-/* --- Slide In Right --- */
-@keyframes slideRight {
-  from { opacity: 0; transform: translateX(40px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-/* --- Scale In --- */
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.88); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* --- Ink Reveal (clip-path wipe) --- */
-@keyframes inkReveal {
-  from { clip-path: inset(0 100% 0 0); }
-  to   { clip-path: inset(0 0% 0 0); }
-}
-
-/* --- Float (hover orbs) --- */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-16px); }
-}
-
-/* --- Float Slow --- */
-@keyframes floatSlow {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33%       { transform: translateY(-10px) rotate(2deg); }
-  66%       { transform: translateY(-6px) rotate(-2deg); }
-}
-
-/* --- Pulse Glow --- */
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 20px rgba(124, 109, 250, 0.2); }
-  50%       { box-shadow: 0 0 40px rgba(124, 109, 250, 0.5), 0 0 80px rgba(124, 109, 250, 0.2); }
-}
-
-/* --- Shimmer (skeleton loading) --- */
-@keyframes shimmer {
-  from { background-position: -400px 0; }
-  to   { background-position: 400px 0; }
-}
-
-/* --- Typewriter cursor --- */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
-/* --- Rotate slow --- */
-@keyframes rotateSlow {
+/* --- Vortex Spin --- */
+@keyframes vortex-spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
 
-/* --- Star twinkle --- */
-@keyframes twinkle {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50%       { opacity: 1;   transform: scale(1.4); }
+@keyframes vortex-spin-reverse {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
 }
 
-/* --- Utility animation classes --- */
-.anim-fade-up {
-  animation: fadeUp 0.7s ease both;
+/* --- Float --- */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
 }
 
-.anim-fade-up-delay-1 { animation: fadeUp 0.7s 0.1s ease both; }
-.anim-fade-up-delay-2 { animation: fadeUp 0.7s 0.2s ease both; }
-.anim-fade-up-delay-3 { animation: fadeUp 0.7s 0.3s ease both; }
-.anim-fade-up-delay-4 { animation: fadeUp 0.7s 0.4s ease both; }
-.anim-fade-up-delay-5 { animation: fadeUp 0.7s 0.5s ease both; }
-
-.anim-scale-in { animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-.anim-slide-left  { animation: slideLeft  0.6s ease both; }
-.anim-slide-right { animation: slideRight 0.6s ease both; }
-
-.anim-float      { animation: float     4s ease-in-out infinite; }
-.anim-float-slow { animation: floatSlow 6s ease-in-out infinite; }
-
-.anim-pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
-
-/* Skeleton loading */
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--clr-surface-2) 25%,
-    var(--clr-surface-3) 50%,
-    var(--clr-surface-2) 75%
-  );
-  background-size: 800px 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: var(--radius-md);
+/* --- Energy Flicker --- */
+@keyframes flicker {
+  0%, 90%, 100% { opacity: 1; }
+  91%            { opacity: 0.8; }
+  92%            { opacity: 1; }
+  93%            { opacity: 0.6; }
+  94%            { opacity: 1; }
+  95%            { opacity: 0.9; }
 }
 
-/* --- Chapter page transition --- */
-.page-enter {
-  animation: fadeIn 0.5s ease both;
+/* --- Scanline sweep --- */
+@keyframes scanline {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
 }
 
-/* --- Scroll reveal (used via Framer Motion) --- */
-.reveal-hidden {
-  opacity: 0;
-  transform: translateY(24px);
+/* --- Blood drip --- */
+@keyframes drip {
+  0%   { height: 0; opacity: 0; }
+  30%  { opacity: 1; }
+  100% { height: 60px; opacity: 0; }
 }
 
-.reveal-visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+/* --- Ink spread --- */
+@keyframes ink-spread {
+  from { clip-path: circle(0% at 50% 50%); opacity: 0; }
+  to   { clip-path: circle(150% at 50% 50%); opacity: 1; }
+}
+
+/* --- Energy bar fill --- */
+@keyframes fill-bar {
+  from { width: 0%; }
+  to   { width: var(--fill-to, 80%); }
+}
+
+/* --- Star drift --- */
+@keyframes star-drift {
+  from { transform: translateY(0) rotate(0deg); }
+  to   { transform: translateY(-600px) rotate(720deg); }
+}
+
+/* --- Ripple --- */
+@keyframes ripple {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* --- Typing cursor --- */
+@keyframes blink-cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Utility classes */
+.animate-float   { animation: float 4s ease-in-out infinite; }
+.animate-flicker { animation: flicker 3s ease-in-out infinite; }
+.animate-pulse-energy { animation: pulse-energy 2s ease-in-out infinite; }
+.anim-fade-up { animation: fade-up 0.8s ease both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

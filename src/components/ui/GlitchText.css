@@ -1,0 +1,34 @@
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.glitch-text:hover::before,
+.glitch-text:hover::after {
+  opacity: 1;
+}
+
+.glitch-text:hover::before {
+  color: var(--energy-cyan);
+  animation: glitch-1 0.4s steps(1) infinite;
+}
+
+.glitch-text:hover::after {
+  color: var(--blood);
+  animation: glitch-2 0.4s steps(1) infinite 0.05s;
+}
+
+.glitch-text:hover {
+  animation: glitch-skew 0.4s steps(1) infinite;
+}
